@@ -7,7 +7,7 @@ services:
     restart: always
     ports:
       - 9870:9870
-      - 9010:9000
+      - 9000:9000
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     environment:
@@ -36,6 +36,8 @@ services:
     restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    ports:
+      - "8088:8088"
     env_file:
       - ./hadoop.env
 
@@ -113,13 +115,12 @@ services:
     container_name: hive-metastore-postgresql
 
   presto-coordinator:
-    image: shawnzhu/prestodb:0.181
+    image: shawnzhu/prestodb:0.215
     container_name: presto-coordinator
     ports:
-      - "8089:8089"
+      - "18010:8080"
 
 volumes:
   hadoop_namenode:
   hadoop_datanode:
   hadoop_historyserver:
-
